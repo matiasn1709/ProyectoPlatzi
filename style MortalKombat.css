@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Revolution&display=swap');
+@font-face {
+    font-family: 'Kelmscot';
+    src: url(/mokepon/KELMSCOT.TTF);
+}
+
+/* es más facil usar la cosola del navegador web para poner los estilos de css y luego copiarlos y pegarlos en el codigo. De esta manera, es más dinamico elegir los estilos ya que podemos verlos en el "momento"*/
+
+
+
+body{
+    font-family: 'Protest Revolution', sans-serif;
+    background-image: url(Imagenes/Mk2011_courtyard_day.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Selección del luchador*/
+#seleccionar-personaje{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: black 2px 2px;
+    height: 90vh;
+} 
+
+.titulo{
+    color: rgb(197, 17, 17);
+    height: 45px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    font-weight: 100px;
+}
+
+.subtitulo{
+    font-size: 24px;
+    color: darkmagenta;
+}
+
+#tarjetas{
+    display: inline-flex;
+    gap: 20px;
+}
+
+.tarjeta-de-mokepon{
+    width: 273px;
+    height: 288px;
+    background-color: #A94438;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    margin: 10px;
+    border: 2px solid rgb(0, 0, 0);
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* letras de la tarjeta*/
+    color: #E6BAA3;
+    font-size: 20px;
+    
+}
+/* input + label*/
+#tarjetas input:checked + label{
+    background-color: darkred;
+    outline: outset ghostwhite;
+}
+
+input:hover + label{
+    outline: outset ghostwhite;
+}
+/* input + label*/    
+.tarjeta-de-mokepon img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: inherit;
+}
+
+input{
+    display: none;
+}
+
+#boton-personaje{
+    border-radius: 10px;
+    font-family: 'Protest Revolution', sans-serif;
+    color: ivory;
+    background-color: transparent;
+    width: 100px;
+    height: 30px;
+    border: 2px solid white;
+    margin-top: 15px;
+    text-shadow: black 2px 2px;
+}
+
+/* Seccion ataques */
+
+#seleccionar-ataque{
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    text-shadow: 1.5px 1.5px 0 #000, -1.5px 1.5px 0 #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000;
+}
+
+#seleccionar-ataque h1{
+    margin-top: 70px;
+    margin-bottom: 10px;
+}
+
+.ataques{
+    display: grid;
+    grid-template-columns: 300px 300px;
+    justify-items:center;
+    font-size: x-large;
+    color: orchid;
+    margin-bottom: -50px;
+    text-align: center;
+}
+
+
+#ataques-del-jugador, #ataques-del-enemigo{
+    color: gainsboro;
+    font-size: large;
+}
+
+
+#boton-reiniciar img{
+    width: 60px;
+    height: 60px;
+}
+
+#boton-reiniciar{
+    display: block;
+    border-radius: 600px;
+    width: 76px;
+    height: 71px;
+    background-color: transparent;
+    border-color: transparent;
+    margin-bottom: -20px;
+}
+
+#seleccionar-ataque h2{
+    font-size: 35px;
+    color: cadetblue;
+}
+
+#botones button{
+    margin-right: 50px;
+    margin-left: 50px;
+    border-radius: 20px;
+    /* Letras */
+    font-size: 20px;
+    font-family: inherit;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+#botones button:hover{
+    outline: outset ghostwhite;
+}
+
+button img{
+    display: flex;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+}
+
+#boton-fuego{
+    background-color: darkred;
+    color: coral;
+    border-color: crimson;
+}
+
+#boton-agua{
+    background-color: royalblue;
+    color: deepskyblue;
+    border-color: cadetblue;
+}
+
+#boton-tierra{
+    background-color: saddlebrown;
+    color: burlywood;
+    border-color: chocolate;
+}
+
+#resultado{
+    display: flex;
+    color: gold;
+    font-style: italic;
+    font-variant-caps: petite-caps;
+    font-size: larger;
+    text-shadow: 1.5px 1.5px 0 #000, -1.5px 1.5px 0 #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 800px) {
+    #seleccionar-personaje{
+        width: auto;
+        height: auto;
+    }
+    
+    #tarjetas {
+        flex-direction: column;
+    }
+
+    #botones button{
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+        align-items: center;
+    }
+
+    .ataques{
+        grid-template-columns: 150px 150px;
+    }
+}
