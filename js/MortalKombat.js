@@ -38,6 +38,9 @@ let indexAtaqueEnemigo
 let imputScorpion
 let imputReptile
 let imputErmac
+let imputLiuKang
+let imputSubZero
+let imputBaraca
 let personajeJugador
 let victoriasJugador = 0
 let victoriasEnemigo = 0
@@ -52,11 +55,18 @@ class Personaje {
     }
 }
 
-let scorpion = new Personaje('Scorpion', 'Imagenes/1685027093258.jpg', 5)
+let scorpion = new Personaje('Scorpion','Imagenes/SCORPION.png',5)
 
-let reptile = new Personaje('Reptile','Imagenes/78e5e96fc775133e538d334074ef08826e0f118er1-670-512v2_hq.jpg' ,5)
+let reptile = new Personaje('Reptile','Imagenes/reptile.png' ,5)
 
-let ermac = new Personaje('Ermac','Imagenes/nLM9cMNU_400x400.jpg',5)
+let ermac = new Personaje('Ermac','Imagenes/ermac.png',5)
+
+let liuKang = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5)
+
+let subZero = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5)
+
+let baraca = new Personaje('Baraca','Imagenes/baraka.png',5)
+
 
 scorpion.ataques.push(
     {nombre:'🔥', id:'boton-fuego'},
@@ -82,7 +92,31 @@ ermac.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
 )
 
-personajes.push(scorpion, reptile, ermac)
+liuKang.ataques.push(
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'💧', id:'boton-agua'},
+    {nombre:'🌎', id:'boton-tierra'}
+)
+
+subZero.ataques.push(
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🌎', id: 'boton-tierra'}
+)
+
+baraca.ataques.push(
+    {nombre: '🌎', id: 'boton-tierra'},
+    {nombre: '🌎', id: 'boton-tierra'}, 
+    {nombre: '🌎', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+)
+
+personajes.push(scorpion, reptile, ermac, liuKang, subZero, baraca)
 /* Personajes*/
 
 function iniciarJuego(){  
@@ -101,6 +135,9 @@ function iniciarJuego(){
         imputScorpion = document.getElementById('Scorpion')
         imputReptile = document.getElementById('Reptile')
         imputErmac = document.getElementById('Ermac')
+        imputLiuKang = document.getElementById('Liu-Kang')
+        imputSubZero = document.getElementById('Sub-Zero')
+        imputBaraca = document.getElementById('Baraca')
     })
     botonPersonaje.addEventListener('click', seleccionarPersonajeJugador)
 
@@ -121,7 +158,16 @@ function seleccionarPersonajeJugador(){
     } else if (imputErmac.checked){
         spanPersonajeJugador.innerHTML = imputErmac.id
         personajeJugador = imputErmac.id
-    } else {
+    }else if (imputLiuKang.checked){
+        spanPersonajeJugador.innerHTML = imputLiuKang.id
+        personajeJugador = imputLiuKang.id
+    }else if (imputSubZero.checked){
+        spanPersonajeJugador.innerHTML = imputSubZero.id
+        personajeJugador = imputSubZero.id
+    } else if (imputBaraca.checked){
+    spanPersonajeJugador.innerHTML = imputBaraca.id
+    personajeJugador = imputBaraca.id
+    }else {
         alert('Debes elegir una Personaje');
         reiniciar();
     }

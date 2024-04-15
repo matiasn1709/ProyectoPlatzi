@@ -40,8 +40,9 @@ body{
 }
 
 #tarjetas{
-    display: inline-flex;
-    gap: 20px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: auto auto auto;
 }
 
 .tarjeta-de-mokepon{
