@@ -4,6 +4,7 @@
     src: url(/mokepon/KELMSCOT.TTF);
 }
 
+
 /* es más facil usar la cosola del navegador web para poner los estilos de css y luego copiarlos y pegarlos en el codigo. De esta manera, es más dinamico elegir los estilos ya que podemos verlos en el "momento"*/
 
 
@@ -60,9 +61,27 @@ body{
     align-items: center;
     /* letras de la tarjeta*/
     color: #E6BAA3;
-    font-size: 20px;
+    font-size: 25px;
+    text-shadow: black 3px 3px 3px;
     
 }
+
+.fuego img{
+background-image: url(Imagenes/Fuego.JPG);
+border-radius: 20%;
+}
+
+.tierra img{
+background-image: url(Imagenes/Tierra.jpg);
+border-radius: 20%;
+}
+
+.agua img{
+background-image: url(Imagenes/Agua.jpg);
+border-radius: 20%;
+}
+
+
 /* input + label*/
 #tarjetas input:checked + label{
     background-color: darkred;
@@ -76,8 +95,6 @@ input:hover + label{
 .tarjeta-de-mokepon img {
     width: 200px;
     height: 200px;
-    border: 1px solid black;
-    border-radius: inherit;
 }
 
 input{
@@ -215,6 +232,7 @@ button img{
     }
     
     #tarjetas {
+        display: flex;
         flex-direction: column;
     }
 

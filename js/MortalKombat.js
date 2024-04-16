@@ -40,32 +40,33 @@ let imputReptile
 let imputErmac
 let imputLiuKang
 let imputSubZero
-let imputBaraca
+let imputBaraka
 let personajeJugador
 let victoriasJugador = 0
 let victoriasEnemigo = 0
 
 /* Personajes */
 class Personaje {
-    constructor(nombre,foto,vida){
+    constructor(nombre,foto,vida, atributo){
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
+        this.atributo = atributo
     }
 }
 
-let scorpion = new Personaje('Scorpion','Imagenes/SCORPION.png',5)
+let scorpion = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego')
 
-let reptile = new Personaje('Reptile','Imagenes/reptile.png' ,5)
+let reptile = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua')
 
-let ermac = new Personaje('Ermac','Imagenes/ermac.png',5)
+let ermac = new Personaje('Ermac','Imagenes/ermac.png',5, 'tierra')
 
-let liuKang = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5)
+let liuKang = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego')
 
-let subZero = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5)
+let subZero = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua')
 
-let baraca = new Personaje('Baraca','Imagenes/baraka.png',5)
+let baraka = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra')
 
 
 scorpion.ataques.push(
@@ -108,7 +109,7 @@ subZero.ataques.push(
     {nombre: '🌎', id: 'boton-tierra'}
 )
 
-baraca.ataques.push(
+baraka.ataques.push(
     {nombre: '🌎', id: 'boton-tierra'},
     {nombre: '🌎', id: 'boton-tierra'}, 
     {nombre: '🌎', id: 'boton-tierra'},
@@ -116,7 +117,7 @@ baraca.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
 )
 
-personajes.push(scorpion, reptile, ermac, liuKang, subZero, baraca)
+personajes.push(scorpion, reptile, ermac, liuKang, subZero, baraka)
 /* Personajes*/
 
 function iniciarJuego(){  
@@ -126,7 +127,7 @@ function iniciarJuego(){
     personajes.forEach((personaje) => {
         opcionDePersonajes = `
         <input type="radio" name="Personajes" id=${personaje.nombre} />
-        <label class="tarjeta-de-mokepon" for=${personaje.nombre}>
+        <label class="tarjeta-de-mokepon ${personaje.atributo}" for=${personaje.nombre}>
         <p>${personaje.nombre}</p> 
         <img src=${personaje.foto} alt=${personaje.nombre}></img>
         `
@@ -137,7 +138,7 @@ function iniciarJuego(){
         imputErmac = document.getElementById('Ermac')
         imputLiuKang = document.getElementById('Liu-Kang')
         imputSubZero = document.getElementById('Sub-Zero')
-        imputBaraca = document.getElementById('Baraca')
+        imputBaraka = document.getElementById('Baraka')
     })
     botonPersonaje.addEventListener('click', seleccionarPersonajeJugador)
 
@@ -164,9 +165,9 @@ function seleccionarPersonajeJugador(){
     }else if (imputSubZero.checked){
         spanPersonajeJugador.innerHTML = imputSubZero.id
         personajeJugador = imputSubZero.id
-    } else if (imputBaraca.checked){
-    spanPersonajeJugador.innerHTML = imputBaraca.id
-    personajeJugador = imputBaraca.id
+    } else if (imputBaraka.checked){
+    spanPersonajeJugador.innerHTML = imputBaraka.id
+    personajeJugador = imputBaraka.id
     }else {
         alert('Debes elegir una Personaje');
         reiniciar();
@@ -236,8 +237,12 @@ function seleccionarPersonajeEnemigo(){
 function ataqueAleatorioEnemigo(){
     let ataqueAleatorio = aleatorio(0, ataquePersonajeEnemigo.length -1)
 
-    if(ataqueAleatorio==0 || ataqueAleatorio == 1){ataqueEnemigo.push('FUEGO')}else if(ataqueAleatorio==3 || ataqueAleatorio == 4){ataqueEnemigo.push('AGUA')}else{ataqueEnemigo.push('TIERRA')}
-console.log(ataqueEnemigo)
+    if(ataqueAleatorio == 0){
+        ataqueEnemigo.push(ataquePersonajeEnemigo[0])
+    }  
+    
+    /*if(ataqueAleatorio==0 || ataqueAleatorio == 1){ataqueEnemigo.push('FUEGO')}else if(ataqueAleatorio==3 || ataqueAleatorio == 4){ataqueEnemigo.push('AGUA')}else{ataqueEnemigo.push('TIERRA')}
+console.log(ataqueEnemigo)*/
     iniciarPelea()
 }
 
