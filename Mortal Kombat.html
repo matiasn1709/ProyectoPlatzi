@@ -25,6 +25,22 @@
                 Seleccionar
             </button>
         </section>
+
+        <section id="ver-mapa">
+            <h2 class="titulo">
+                Recorre el mapa con tu luchador
+            </h2>
+            <canvas id="mapa"></canvas>
+        <div >
+            <button onmouseup="detenerMovimiento()" onmousedown="moverArriba()" onmouseleave="detenerMovimiento()" class="boton-mover">↑</button>
+        </div>
+        
+        <div>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverIzquierda()" onmouseleave="detenerMovimiento()" class="boton-mover">←</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverAbajo()" onmouseleave="detenerMovimiento()" class="boton-mover">↓</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverDerecha()" onmouseleave="detenerMovimiento()" class="boton-mover">→</button>
+        </div>
+        </section>
         
         <section id="seleccionar-ataque">
             <h1 class="titulo">MORTAL KOMBAT</h1>

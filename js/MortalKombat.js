@@ -22,6 +22,9 @@ const sectionMensajes = document.getElementById('resultado')
 const botonReiniciar = document.getElementById('boton-reiniciar')
 const tarjetas = document.getElementById('tarjetas')
 
+const sectionVerMapa = document.getElementById('ver-mapa')
+const mapa = document.getElementById('mapa')
+
 let personajes = []
 /*let ataque = []*/
 let ataqueJugador = []
@@ -44,19 +47,55 @@ let imputBaraka
 let personajeJugador
 let victoriasJugador = 0
 let victoriasEnemigo = 0
+let lienzo = mapa.getContext("2d")
+let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = './Imagenes/Outworld.jpg'
+let miPersonaje
+let alturaQueBuscamos
+let anchoDelMapa = window.innerWidth - 20
+const anchoMaximo = 700
+
+if(anchoDelMapa > anchoMaximo){
+    anchoDelMapa = anchoMaximo - 20
+}
+
+alturaQueBuscamos = anchoDelMapa * 3 / 4
+
+mapa.width = anchoDelMapa
+mapa.height = alturaQueBuscamos
 
 /* Personajes */
 class Personaje {
-    constructor(nombre,foto,vida, atributo){
+    constructor(nombre,foto,vida, atributo, fotoMapa = foto, x = 10, y = 10){
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
         this.atributo = atributo
+        this.ancho = 50
+        this.alto = 50
+        this.x = aleatorio(0, mapa.width - this.ancho)
+        this.y = aleatorio(0, mapa.height - this.alto)
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = fotoMapa
+        this.velocidadX = 0
+        this.velocidadY = 0
+    }
+
+    pintarPersonaje() {
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto
+        )
     }
 }
 
-let scorpion = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego')
+/******* Personajes del jugador *******/
+let scorpion = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego', 'Imagenes/SCORPION.png')
 
 let reptile = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua')
 
@@ -67,6 +106,19 @@ let liuKang = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego')
 let subZero = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua')
 
 let baraka = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra')
+
+/***** Personajes enemigos ******/
+let scorpionEnemigo = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego','Imagenes/SCORPION.png')
+
+let reptileEnemigo = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua','Imagenes/reptile.png')
+
+let ermacEnemigo = new Personaje('Ermac','Imagenes/ermac.png',5, 'tierra','Imagenes/ermac.png')
+
+let liuKangEnemigo = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego','Imagenes/liu-kang.png')
+
+let subZeroEnemigo = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua','Imagenes/sub-zero.png')
+
+let barakaEnemigo = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra','Imagenes/baraka.png')
 
 
 scorpion.ataques.push(
@@ -117,12 +169,62 @@ baraka.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
 )
 
+scorpionEnemigo.ataques.push(
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'💧', id:'boton-agua'},
+    {nombre:'🌎', id:'boton-tierra'}
+)
+
+reptileEnemigo.ataques.push(
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🌎', id: 'boton-tierra'}
+)
+
+ermacEnemigo.ataques.push(
+    {nombre: '🌎', id: 'boton-tierra'},
+    {nombre: '🌎', id: 'boton-tierra'}, 
+    {nombre: '🌎', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+)
+
+liuKangEnemigo.ataques.push(
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'🔥', id:'boton-fuego'},
+    {nombre:'💧', id:'boton-agua'},
+    {nombre:'🌎', id:'boton-tierra'}
+)
+
+subZeroEnemigo.ataques.push(
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🌎', id: 'boton-tierra'}
+)
+
+barakaEnemigo.ataques.push(
+    {nombre: '🌎', id: 'boton-tierra'},
+    {nombre: '🌎', id: 'boton-tierra'}, 
+    {nombre: '🌎', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+)
+
+
 personajes.push(scorpion, reptile, ermac, liuKang, subZero, baraka)
 /* Personajes*/
 
 function iniciarJuego(){  
     sectionSeleccionarAtaque.style.display = 'none'
     botonReiniciar.style.display = 'none'
+    sectionVerMapa.style.display = 'none'
     
     personajes.forEach((personaje) => {
         opcionDePersonajes = `
@@ -148,8 +250,9 @@ function iniciarJuego(){
 function seleccionarPersonajeJugador(){
     
     sectionSeleccionarPersonaje.style.display = 'none'
-    sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'flex'
     
+
     if (imputScorpion.checked){
         spanPersonajeJugador.innerHTML = imputScorpion.id
         personajeJugador = imputScorpion.id
@@ -173,9 +276,9 @@ function seleccionarPersonajeJugador(){
         reiniciar();
     }
     
-    seleccionarPersonajeEnemigo()
     extraerAtaques(personajeJugador)
     secuenciaAtaque()
+    iniciarMapa()
 }
 
 function extraerAtaques(personajeJugador) {
@@ -237,12 +340,12 @@ function seleccionarPersonajeEnemigo(){
 function ataqueAleatorioEnemigo(){
     let ataqueAleatorio = aleatorio(0, ataquePersonajeEnemigo.length -1)
 
-    if(ataqueAleatorio == 0){
+    /*if(ataqueAleatorio == 0){
         ataqueEnemigo.push(ataquePersonajeEnemigo[0])
-    }  
+    } */ 
     
-    /*if(ataqueAleatorio==0 || ataqueAleatorio == 1){ataqueEnemigo.push('FUEGO')}else if(ataqueAleatorio==3 || ataqueAleatorio == 4){ataqueEnemigo.push('AGUA')}else{ataqueEnemigo.push('TIERRA')}
-console.log(ataqueEnemigo)*/
+    if(ataqueAleatorio==0 || ataqueAleatorio == 1){ataqueEnemigo.push('FUEGO')}else if(ataqueAleatorio==3 || ataqueAleatorio == 4){ataqueEnemigo.push('AGUA')}else{ataqueEnemigo.push('TIERRA')}
+    console.log(ataqueEnemigo)
     iniciarPelea()
 }
 
@@ -317,6 +420,114 @@ function aleatorio(min, max) {
     return Math.floor(Math.random()*(max-min+1)+min) 
 }
 
+function iniciarMapa(){
+    miPersonaje  = obtenerPersonaje(personajeJugador)
+    intervalo = setInterval(pintarPersonajes, 50)
+
+    window.addEventListener('keydown', sePresionoUnaTecla)
+
+    window.addEventListener('keyup', detenerMovimiento)
+}
+
+function pintarPersonajes(){
+    miPersonaje.x += miPersonaje.velocidadX
+    miPersonaje.y += miPersonaje.velocidadY
+    lienzo.clearRect(0, 0, mapa.width, mapa.height)
+    lienzo.drawImage(
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    )
+    miPersonaje.pintarPersonaje()
+    scorpionEnemigo.pintarPersonaje()
+    ermacEnemigo.pintarPersonaje()
+    reptileEnemigo.pintarPersonaje()
+    liuKangEnemigo.pintarPersonaje()
+    subZeroEnemigo.pintarPersonaje()
+    barakaEnemigo.pintarPersonaje()
+    if(miPersonaje.velocidadX !== 0 || miPersonaje.velocidadY !== 0){
+        revisarColision(scorpionEnemigo)
+        revisarColision(reptileEnemigo)
+        revisarColision(ermacEnemigo)
+        revisarColision(liuKangEnemigo)
+        revisarColision(subZeroEnemigo)
+        revisarColision(barakaEnemigo)
+    }
+}
+
+function moverArriba(){
+    miPersonaje.velocidadY = -5
+}
+
+function moverIzquierda(){
+    miPersonaje.velocidadX = -5
+}
+
+function moverAbajo(){
+    miPersonaje.velocidadY = 5
+}
+
+function moverDerecha(){
+    miPersonaje.velocidadX = 5
+}
+
+function detenerMovimiento(){
+    miPersonaje.velocidadX = 0
+    miPersonaje.velocidadY = 0
+}
+
+function sePresionoUnaTecla(event){
+    switch (event.key) {
+        case 'ArrowUp':
+            moverArriba()
+            break
+        case 'ArrowLeft':
+            moverIzquierda()
+            break
+        case 'ArrowDown':
+            moverAbajo()
+            break
+        case 'ArrowRight':
+            moverDerecha()
+            break
+        default:
+            break
+    }
+}
+
+function obtenerPersonaje(){
+    for (let i = 0; i < personajes.length; i++) {
+        if (personajeJugador === personajes[i].nombre) {
+            return personajes[i]
+        }
+    }
+}
+
+function revisarColision(enemigo){
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
+
+    const arribaPersonaje = miPersonaje.y
+    const abajoPersonaje = miPersonaje.y + miPersonaje.alto
+    const derechaPersonaje = miPersonaje.x + miPersonaje.ancho
+    const izquierdaPersonaje = miPersonaje.x
+
+    if (
+        abajoPersonaje < arribaEnemigo || arribaPersonaje > abajoEnemigo || derechaPersonaje < izquierdaEnemigo || izquierdaPersonaje > derechaEnemigo
+    ) {
+        return
+    }
+
+    detenerMovimiento()
+    clearInterval(intervalo)
+    sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = 'none'
+    seleccionarPersonajeEnemigo(enemigo)
+}
 
 window.addEventListener('load', iniciarJuego) // Esto sirve para cargar el archivo .js en caso de colocarlo al principio del html
 
