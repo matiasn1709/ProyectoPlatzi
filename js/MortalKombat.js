@@ -25,7 +25,9 @@ const tarjetas = document.getElementById('tarjetas')
 const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
+let jugadorId = null
 let personajes = []
+let personajesEnemigos = []
 /*let ataque = []*/
 let ataqueJugador = []
 let ataqueEnemigo = []
@@ -67,7 +69,8 @@ mapa.height = alturaQueBuscamos
 
 /* Personajes */
 class Personaje {
-    constructor(nombre,foto,vida, atributo, fotoMapa = foto, x = 10, y = 10){
+    constructor(nombre,foto,vida, atributo, fotoMapa = foto, id = null){
+        this.id = id
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
@@ -107,116 +110,42 @@ let subZero = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua')
 
 let baraka = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra')
 
-/***** Personajes enemigos ******/
-let scorpionEnemigo = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego','Imagenes/SCORPION.png')
 
-let reptileEnemigo = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua','Imagenes/reptile.png')
-
-let ermacEnemigo = new Personaje('Ermac','Imagenes/ermac.png',5, 'tierra','Imagenes/ermac.png')
-
-let liuKangEnemigo = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego','Imagenes/liu-kang.png')
-
-let subZeroEnemigo = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua','Imagenes/sub-zero.png')
-
-let barakaEnemigo = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra','Imagenes/baraka.png')
-
-
-scorpion.ataques.push(
+const fuego_ataques = [
     {nombre:'🔥', id:'boton-fuego'},
     {nombre:'🔥', id:'boton-fuego'},
     {nombre:'🔥', id:'boton-fuego'},
     {nombre:'💧', id:'boton-agua'},
-    {nombre:'🌎', id:'boton-tierra'}
-)
+    {nombre:'🌎', id:'boton-tierra'},
+]
 
-reptile.ataques.push(
+const agua_ataques = [    
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '🔥', id: 'boton-fuego'},
-    {nombre: '🌎', id: 'boton-tierra'}
-)
+    {nombre: '🌎', id: 'boton-tierra'},
+]
 
-ermac.ataques.push(
+const tierra_ataques = [
     {nombre: '🌎', id: 'boton-tierra'},
     {nombre: '🌎', id: 'boton-tierra'}, 
     {nombre: '🌎', id: 'boton-tierra'},
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '🔥', id: 'boton-fuego'},
-)
+]
 
-liuKang.ataques.push(
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'💧', id:'boton-agua'},
-    {nombre:'🌎', id:'boton-tierra'}
-)
+scorpion.ataques.push(...fuego_ataques)
 
-subZero.ataques.push(
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '🔥', id: 'boton-fuego'},
-    {nombre: '🌎', id: 'boton-tierra'}
-)
+reptile.ataques.push(...agua_ataques)
 
-baraka.ataques.push(
-    {nombre: '🌎', id: 'boton-tierra'},
-    {nombre: '🌎', id: 'boton-tierra'}, 
-    {nombre: '🌎', id: 'boton-tierra'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '🔥', id: 'boton-fuego'},
-)
+ermac.ataques.push(...tierra_ataques)
 
-scorpionEnemigo.ataques.push(
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'💧', id:'boton-agua'},
-    {nombre:'🌎', id:'boton-tierra'}
-)
+liuKang.ataques.push(...fuego_ataques)
 
-reptileEnemigo.ataques.push(
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '🔥', id: 'boton-fuego'},
-    {nombre: '🌎', id: 'boton-tierra'}
-)
+subZero.ataques.push(...agua_ataques)
 
-ermacEnemigo.ataques.push(
-    {nombre: '🌎', id: 'boton-tierra'},
-    {nombre: '🌎', id: 'boton-tierra'}, 
-    {nombre: '🌎', id: 'boton-tierra'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '🔥', id: 'boton-fuego'},
-)
-
-liuKangEnemigo.ataques.push(
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'🔥', id:'boton-fuego'},
-    {nombre:'💧', id:'boton-agua'},
-    {nombre:'🌎', id:'boton-tierra'}
-)
-
-subZeroEnemigo.ataques.push(
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '🔥', id: 'boton-fuego'},
-    {nombre: '🌎', id: 'boton-tierra'}
-)
-
-barakaEnemigo.ataques.push(
-    {nombre: '🌎', id: 'boton-tierra'},
-    {nombre: '🌎', id: 'boton-tierra'}, 
-    {nombre: '🌎', id: 'boton-tierra'},
-    {nombre: '💧', id: 'boton-agua'},
-    {nombre: '🔥', id: 'boton-fuego'},
-)
-
+baraka.ataques.push(...tierra_ataques)
 
 personajes.push(scorpion, reptile, ermac, liuKang, subZero, baraka)
 /* Personajes*/
@@ -245,7 +174,22 @@ function iniciarJuego(){
     botonPersonaje.addEventListener('click', seleccionarPersonajeJugador)
 
     botonReiniciar.addEventListener('click', reiniciar)
+
+    unirseAlJuego()
 } //Esto funciona junto con el elemento window del final
+
+function unirseAlJuego(){
+    fetch("http://localhost:8080/unirse")
+        .then(function (res) {
+            if(res.ok){
+                res.text()
+                    .then(function (respuesta){
+                        console.log(respuesta)
+                        jugadorId = respuesta
+                    })
+            }
+        })
+}
 
 function seleccionarPersonajeJugador(){
     
@@ -275,10 +219,25 @@ function seleccionarPersonajeJugador(){
         alert('Debes elegir una Personaje');
         reiniciar();
     }
+
+    seleccionarPersonaje(personajeJugador)
     
     extraerAtaques(personajeJugador)
     secuenciaAtaque()
     iniciarMapa()
+}
+
+function seleccionarPersonaje(personajeJugador){
+    fetch("http://localhost:8080/MortalKombat/" + jugadorId, {
+        method:"post",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            personaje: personajeJugador
+        })
+    })
+    
 }
 
 function extraerAtaques(personajeJugador) {
@@ -441,20 +400,62 @@ function pintarPersonajes(){
         mapa.height
     )
     miPersonaje.pintarPersonaje()
-    scorpionEnemigo.pintarPersonaje()
-    ermacEnemigo.pintarPersonaje()
-    reptileEnemigo.pintarPersonaje()
-    liuKangEnemigo.pintarPersonaje()
-    subZeroEnemigo.pintarPersonaje()
-    barakaEnemigo.pintarPersonaje()
-    if(miPersonaje.velocidadX !== 0 || miPersonaje.velocidadY !== 0){
-        revisarColision(scorpionEnemigo)
-        revisarColision(reptileEnemigo)
-        revisarColision(ermacEnemigo)
-        revisarColision(liuKangEnemigo)
-        revisarColision(subZeroEnemigo)
-        revisarColision(barakaEnemigo)
-    }
+
+    enviarPosicion(miPersonaje.x, miPersonaje.y)
+    
+    personajesEnemigos.forEach(function (personaje) {
+        if(personaje.x != null) {
+            personaje.pintarPersonaje();
+            revisarColision(personaje);
+        }
+        
+    })
+}
+
+function enviarPosicion(x, y){
+    fetch(`http://localhost:8080/MortalKombat/${jugadorId}/posicion`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+    .then(function(res){
+        if (res.ok) {
+            res.json() 
+                .then(function({enemigos}) {
+                    console.log(enemigos)
+                    personajesEnemigos = enemigos.map(function(enemigo){
+                        let personajeEnemigo = null
+                        if(enemigo.personaje != null){
+                        const personajeNombre = enemigo.personaje.nombre || ""
+                        if(personajeNombre === "Scorpion"){
+                            personajeEnemigo = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego','Imagenes/SCORPION.png')
+                        } else if (personajeNombre === "Reptile"){
+                            personajeEnemigo = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua','Imagenes/reptile.png')
+                        } else if (personajeNombre === "Ermac"){
+                            personajeEnemigo = new Personaje('Ermac','Imagenes/ermac.png',5, 'tierra','Imagenes/ermac.png')
+                        } else if (personajeNombre === "Liu-Kang"){
+                            personajeEnemigo = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego','Imagenes/liu-kang.png')
+                        } else if (personajeNombre === "Sub-Zero"){
+                            personajeEnemigo = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua','Imagenes/sub-zero.png')
+                        } else if (personajeNombre === "Baraka"){
+                            personajeEnemigo = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra','Imagenes/baraka.png')
+                        }
+                        }
+
+                        personajeEnemigo.x = enemigo.x;
+                        personajeEnemigo.y = enemigo.y;
+
+                        return personajeEnemigo
+                    })
+
+                })
+        }
+    })
 }
 
 function moverArriba(){
