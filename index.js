@@ -22,6 +22,10 @@ class Jugador {
         this.x = x
         this.y = y
     }
+
+    asignarAtaques(ataques){
+        this.ataques = ataques
+    }
 }
 
 class Personaje {
@@ -73,6 +77,19 @@ app.post("/MortalKombat/:jugadorId/posicion", (req, res) => {
     res.send({
         enemigos
     })
+})
+
+app.post("http://localhost:8080/MortalKombat/:jugadorId/ataques", (req, res) =>{
+    const jugadorId = req.params.jugadorId || ""
+    const ataques = req.body.ataques || []
+
+    const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+    
+    if(jugadorIndex >= 0) {
+        jugadores[jugadorIndex].asignarAtaques(ataques)
+    }
+
+    res.end()
 })
 
 app.listen(8080, () => {

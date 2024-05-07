@@ -26,6 +26,7 @@ const sectionVerMapa = document.getElementById('ver-mapa')
 const mapa = document.getElementById('mapa')
 
 let jugadorId = null
+let enemigoId = null
 let personajes = []
 let personajesEnemigos = []
 /*let ataque = []*/
@@ -283,7 +284,9 @@ function secuenciaAtaque(){
                 boton.style.background = 'black'
                 boton.disabled = true
             } 
-            ataqueAleatorioEnemigo()
+            if (ataqueJugador.length === 5){
+                enviarAtaques()
+            }
         })
     }) 
 }
@@ -294,6 +297,18 @@ function seleccionarPersonajeEnemigo(){
     spanPersonajeEnemigo.innerHTML = personajes[PersonajeAleatorio].nombre
     ataquePersonajeEnemigo = personajes[PersonajeAleatorio].ataques
 
+}
+
+function enviarAtaques() {
+    fetch(`/MortalKombat/${jugadorId}/ataques`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ataques: ataqueJugador
+        })
+    })
 }
 
 function ataqueAleatorioEnemigo(){
@@ -433,17 +448,17 @@ function enviarPosicion(x, y){
                         if(enemigo.personaje != null){
                         const personajeNombre = enemigo.personaje.nombre || ""
                         if(personajeNombre === "Scorpion"){
-                            personajeEnemigo = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego','Imagenes/SCORPION.png')
+                            personajeEnemigo = new Personaje('Scorpion','Imagenes/SCORPION.png',5 ,'fuego','Imagenes/SCORPION.png', enemigo.id)
                         } else if (personajeNombre === "Reptile"){
-                            personajeEnemigo = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua','Imagenes/reptile.png')
+                            personajeEnemigo = new Personaje('Reptile','Imagenes/reptile.png' ,5, 'agua','Imagenes/reptile.png', enemigo.id)
                         } else if (personajeNombre === "Ermac"){
-                            personajeEnemigo = new Personaje('Ermac','Imagenes/ermac.png',5, 'tierra','Imagenes/ermac.png')
+                            personajeEnemigo = new Personaje('Ermac','Imagenes/ermac.png',5, 'tierra','Imagenes/ermac.png', enemigo.id)
                         } else if (personajeNombre === "Liu-Kang"){
-                            personajeEnemigo = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego','Imagenes/liu-kang.png')
+                            personajeEnemigo = new Personaje('Liu-Kang','Imagenes/liu-kang.png',5, 'fuego','Imagenes/liu-kang.png', enemigo.id)
                         } else if (personajeNombre === "Sub-Zero"){
-                            personajeEnemigo = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua','Imagenes/sub-zero.png')
+                            personajeEnemigo = new Personaje('Sub-Zero','Imagenes/sub-zero.png',5, 'agua','Imagenes/sub-zero.png', enemigo.id)
                         } else if (personajeNombre === "Baraka"){
-                            personajeEnemigo = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra','Imagenes/baraka.png')
+                            personajeEnemigo = new Personaje('Baraka','Imagenes/baraka.png',5, 'tierra','Imagenes/baraka.png', enemigo.id)
                         }
                         }
 
@@ -525,6 +540,9 @@ function revisarColision(enemigo){
 
     detenerMovimiento()
     clearInterval(intervalo)
+    console.log("Se detectó una batalla.")
+
+    enemigoId = enemigo.id
     sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = 'none'
     seleccionarPersonajeEnemigo(enemigo)
